@@ -1,6 +1,7 @@
 # JRecon
 ### A tool to automate Active Directory Enumeration
-I've been working on this tool to automate a good part of the initial AD enumeration phase that I always go through at the very start of every AD test.
+I've been working on this tool to automate a good part of the initial AD enumeration phase.
+JRecon is not perfect, but it does it's job for me.
 
 ### What can JRecon do for you ?
 
