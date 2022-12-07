@@ -182,3 +182,10 @@ Author: Scott Sutherland (@_nullbind)
 Author: Chris Campbell (@obscuresec)
 
 @Credit to: https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1
+
+
+**PowerSharpPack**
+
+Author: Fabian (@ShitSecure)
+
+@Credit to: https://github.com/S3cur3Th1sSh1t/PowerSharpPack
