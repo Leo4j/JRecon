@@ -12,7 +12,7 @@ No third-party tool is invoked from the internet, everything is embedded. Why ? 
 
 JRecon will initially ask what tools you want to run. Why ? First of all to make sure you stay in scope, but also because it may not be the first time you run the tool. As a matter of fact, you may want to re-run some of the tasks as you move laterally within AD (e.g.: shares enumeration or BloodHound)
 
-### What does the tool enumerate ? Does it run any attack that I should be aware of ?
+### What does the tool enumerate for ? Does it run any attack that I should be aware of ?
 
 The only attacks it runs is Kerberoasting, ASREPRoasting, and URL File Attack. Everything else is just enumeration
 
