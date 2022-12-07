@@ -18,48 +18,45 @@ Why ? Because it uses some of the output it produces to perform other tasks.
 
 JRecon will initially ask you if you want to download tools like Nessus, WinShareEnum, AdvIPScanner, HFS, VirtualBox, and Kali OS
 
-The tool enumerates for:
+The tool enumerates for and performs (upon request):
+
 •	AD objects and policies (subnets, computers, users, DCs, password policy and more)
+
 •	Users Description field piping to file (excludes blank entries)
-•	Misconfigured Certificate Templates
-•	BloodHound collection (CollectionMethod -All)
-•	Exploitable Systems
-•	LDAP Signing
-•	Passwords in GPO (and decrypts them if it finds any)
-•	Passwords in SYSVOL/Netlogon
-•	Accessible shares (Read)
-•	Writable shares (Write)
 
+•	Creates a list of Servers
 
-Do you want to run the initial Domain Enumeration ?
+•	Creates a list of Hosts running Unsupported OS
 
-Do you want to run BloodHound Collection ?
+•	Checks on Local Admins on the system
 
-Do you want to download and run PingCastle ?
+•	Checks if AV is installed
 
-Do you want to enumerate Readable Shares ?
+•	Checks for Local Admin Password Solution (LAPS)
 
-Do you want to use PingCastle to enumerate shares ?
+•	Kerberoasting and ASREPRoasting
 
-Do you want to enumerate Writable Shares ?
+•	Checks for presence of Kerb Tickets in your local machine
 
-Do you want to run a URL File Attack ?
+•	Enumerates for Vulnerable GPOs
 
-Do you want to run a Kerberoast (and ASREPRoast) attack ?
+•	Checks for Misconfigured Certificate Templates
 
-Do you want to check for presence of Kerb Tickets in your local machine ?
+•	BloodHound collection
 
-Do you want to check for Misconfigured Certificate Templates ?
+•	Checks for Exploitable Systems
 
-Do you want to enumerate for Vulnerable GPOs ?
+•	Checks for LDAP Signing
 
-Do you want to enumerate LDAP Signing ?
+•	Checks for Passwords in GPO (and decrypts them if it finds any)
 
-Do you want to check for Exploitable Systems ?
+•	Checks for Passwords in SYSVOL/Netlogon
 
-Do you want to search for Passwords in GPO ?
+•	Checks for Accessible shares (Read)
 
-Do you want to search for Passwords in SYSVOL/Netlogon ?
+•	Checks for Writable shares (Write)
+
+•	Asks you if you want to run a URL File Attack
 
 ### How to run ?
 
