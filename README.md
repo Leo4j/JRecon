@@ -136,6 +136,13 @@ Author: Will Schroeder (@harmj0y)
 @Credit to: https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
 
 
+**Invoke-ShareFinder.ps1**
+
+Author: Will Schroeder (@harmj0y)
+
+@Credit to: https://github.com/darkoperator/Veil-PowerView/blob/master/PowerView/functions/Invoke-ShareFinder.ps1
+
+
 **AmsiScanBuffer bypass**
 
 Author: Rasta Mouse (@_RastaMouse)
@@ -143,3 +150,15 @@ Author: Rasta Mouse (@_RastaMouse)
 @Credit to: https://twitter.com/_RastaMouse
 
 
+**Get-ExploitableSystems.psm1**
+
+Author: Scott Sutherland (@_nullbind)
+
+@Credit to: https://github.com/nullbind/Powershellery/blob/master/Stable-ish/ADS/Get-ExploitableSystems.psm1
+
+
+**Get-GPPPassword.ps1**
+
+Author: Chris Campbell (@obscuresec)
+
+@Credit to: https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-GPPPassword.ps1
