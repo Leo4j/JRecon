@@ -1,5 +1,5 @@
 # JRecon
-### A tool to automate Active Directory Reconnaissance
+### A tool to automate Active Directory Enumeration
 I've been working on this tool to automate a good part of the initial AD enumeration phase that I always go through at the very start of every AD test.
 
 ### What can JRecon do for you ?
