@@ -122,7 +122,7 @@ ADRecon is a tool which gathers information about the Active Directory
 @Credit to: https://github.com/sense-of-security/ADRecon
 
 
-**Kerberoast.ps1**
+**Invoke-Kerberoast**
 
 Author: Will Schroeder (@harmj0y)
 
@@ -136,7 +136,7 @@ Author: Will Schroeder (@harmj0y)
 @Credit to: https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
 
 
-**Invoke-ShareFinder.ps1**
+**Invoke-ShareFinder**
 
 Author: Will Schroeder (@harmj0y)
 
@@ -150,14 +150,14 @@ Author: Rasta Mouse (@_RastaMouse)
 @Credit to: https://twitter.com/_RastaMouse
 
 
-**Get-ExploitableSystems.psm1**
+**Get-ExploitableSystems**
 
 Author: Scott Sutherland (@_nullbind)
 
 @Credit to: https://github.com/nullbind/Powershellery/blob/master/Stable-ish/ADS/Get-ExploitableSystems.psm1
 
 
-**Get-GPPPassword.ps1**
+**Get-GPPPassword**
 
 Author: Chris Campbell (@obscuresec)
 
