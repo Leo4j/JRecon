@@ -48,7 +48,7 @@ S`eT-It`em ( 'V'+'aR' +  'IA' + ('blE:1'+'q2')  + ('uZ'+'x')  ) ( [TYpE](  "{1}{
 
 Set a variable to download your licensed version of PingCastle
 
-(If you skip this step PingCastle free version will be downloaded)
+(If you skip this step PingCastle Free Edition will be downloaded - Not for commercial use)
 
 ```
 $jpingdownload = "<URL>"
