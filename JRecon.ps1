@@ -10716,6 +10716,30 @@ else{
 	Write-Host "PingCastle" -ForegroundColor Yellow -NoNewline
 	Write-Host " ? Leave blank for YES: " -NoNewline
     $jPingCastle = Read-Host
+	if($jPingCastle){}
+	else{
+		if($jpingdownload){}
+		elseif($jpingdownload -eq "https://github.com/vletoux/pingcastle/releases/download/2.11.0.1/PingCastle_2.11.0.1.zip"){
+			Write-Host "You haven't setup the " -ForegroundColor Yellow -NoNewline
+			Write-Host "`$jpingdownload" -ForegroundColor Green -NoNewline
+			Write-Host " variable, which means JRecon will download and run PingCastle Free Edition" -ForegroundColor Yellow
+			Write-Host "PingCastle Free Edition is NOT FOR COMMERCIAL USE" -ForegroundColor Red
+			Write-Host "Please setup the variable before running JRecon, like so:" -ForegroundColor Yellow
+			Write-Host "`$jpingdownload = `"" -ForegroundColor Green -NoNewline
+			Write-Host "<URL_To_PingCastle_Commercial_Version>" -ForegroundColor Cyan -NoNewline
+			Write-Host "`"" -ForegroundColor Green
+		}
+		else{
+			Write-Host "You haven't setup the " -ForegroundColor Yellow -NoNewline
+			Write-Host "`$jpingdownload" -ForegroundColor Green -NoNewline
+			Write-Host " variable, which means JRecon will download and run PingCastle Free Edition" -ForegroundColor Yellow
+			Write-Host "PingCastle Free Edition is NOT FOR COMMERCIAL USE" -ForegroundColor Red
+			Write-Host "Please setup the variable before running JRecon, like so:" -ForegroundColor Yellow
+			Write-Host "`$jpingdownload = `"" -ForegroundColor Green -NoNewline
+			Write-Host "<URL_To_PingCastle_Commercial_Version>" -ForegroundColor Cyan -NoNewline
+			Write-Host "`"" -ForegroundColor Green
+		}
+	}
 	
 	Write-Host "Do you want to enumerate " -NoNewline
 	Write-Host "Readable Shares" -ForegroundColor Yellow -NoNewline
