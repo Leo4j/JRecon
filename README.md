@@ -58,42 +58,74 @@ iex(new-object net.webclient).downloadstring('')
 
 ### Which tools are included?
 
+
 **Rubeus**
+
 Rubeus is a C# toolset for raw Kerberos interaction and abuses.
+
 @Credit to: https://github.com/GhostPack/Rubeus && https://github.com/gentilkiwi/kekeo/
  
+
 **Grouper3**
+
 Find vulnerabilities in AD Group Policy, but do it better than Grouper2 did.
+
 @Credit to: https://github.com/Group3r/Group3r
  
+
 **Certify**
+
 Active Directory certificate abuse. 
+
 @Credit to: https://github.com/GhostPack/Certify
 
+
 **LdapSignCheck**
+
 C# project to check LDAP signing.
+
 @Credit to: https://github.com/cube0x0/LdapSignCheck
 
+
 **PingCastle** (Free Edition - **Not for commercial use**)
+
 Get Active Directory Security at 80% in 20% of the time
+
 @Credit to: https://github.com/vletoux/pingcastle
 
+
 **SharpHound**
+
 C# Data Collector for the BloodHound Project
+
 @Credit to: https://github.com/BloodHoundAD/SharpHound
 
+
 **ADRecon**
+
 ADRecon is a tool which gathers information about the Active Directory
+
 @Credit to: https://github.com/sense-of-security/ADRecon
 
+
 **Kerberoast.ps1**
+
 Author: Will Schroeder (@harmj0y)
+
 @Credit to: https://github.com/EmpireProject/Empire/blob/master/data/module_source/credentials/Invoke-Kerberoast.ps1
 
+
 **PowerView**
+
 Author: Will Schroeder (@harmj0y)
+
 @Credit to: https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1
 
+
 **AmsiScanBuffer bypass**
+
 Author: Rasta Mouse (@_RastaMouse)
+
 @Credit to: https://twitter.com/_RastaMouse
+
+
