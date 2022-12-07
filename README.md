@@ -9,19 +9,33 @@ JRecon will initially ask you if you want to download tools like Nessus, WinShar
 It will then ask you the following:
 
 Do you want to run the initial Domain Enumeration ?
+
 Do you want to run BloodHound Collection ?
+
 Do you want to download and run PingCastle ?
+
 Do you want to enumerate Readable Shares ?
+
 Do you want to use PingCastle to enumerate shares ?
+
 Do you want to enumerate Writable Shares ?
+
 Do you want to run a URL File Attack ?
+
 Do you want to run a Kerberoast (and ASREPRoast) attack ?
+
 Do you want to check for presence of Kerb Tickets in your local machine ?
+
 Do you want to check for Misconfigured Certificate Templates ?
+
 Do you want to enumerate for Vulnerable GPOs ?
+
 Do you want to enumerate LDAP Signing ?
+
 Do you want to check for Exploitable Systems ?
+
 Do you want to search for Passwords in GPO ?
+
 Do you want to search for Passwords in SYSVOL/Netlogon ?
 
 ### How to run ?
