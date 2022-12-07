@@ -4,6 +4,10 @@ I've been working on this tool to automate a good part of the initial AD enumera
 
 JRecon is not perfect, but it does it's job - while I can go grab a coffee
 
+My advice is to run the tool within an empty working directory folder, and (if needed) re-run within the same folder. 
+
+Why ? Because it uses some of the output it produces to perform other tasks.
+
 No third-party tool is invoked from the internet, everything is embedded. Why ? Because we may have no access to internet or Github repositories during engagements, and tools may change syntax when updated which would brake JRecon. The only code that may change in time (creating some issues) is BloodHound collector, which I’ll try to keep updated.
 
 JRecon will initially ask what tools you want to run. Why ? First of all to make sure you stay in scope, but also because it may not be the first time you run the tool. As a matter of fact, you may want to re-run some of the tasks as you move laterally within AD (e.g.: shares enumeration or BloodHound)
@@ -12,11 +16,7 @@ JRecon will initially ask what tools you want to run. Why ? First of all to make
 
 The only attacks it runs is Kerberoasting, ASREPRoasting, and URL File Attack. Everything else is just enumeration
 
-My advice is to run the tool within an empty working directory folder, and (if needed) re-run within the same folder. 
-
-Why ? Because it uses some of the output it produces to perform other tasks.
-
-JRecon will initially ask you if you want to download tools like Nessus, WinShareEnum, AdvIPScanner, HFS, VirtualBox, and Kali OS
+JRecon will initially ask you if you want to download tools like Nessus, WinShareEnum, AdvIPScanner, HFS, VirtualBox, and Kali OS (these will actually be downloaded)
 
 The tool enumerates for and performs (upon request):
 
