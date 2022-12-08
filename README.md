@@ -85,7 +85,7 @@ $jYesToAll = "All"
 Finally, invoke and run the tool on memory (don't make it touch disk)
 
 ```
-iex(new-object net.webclient).downloadstring('')
+iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/JRecon/main/JRecon.ps1')
 ```
 
 ## JRecon is a collection of other scripts and tools
