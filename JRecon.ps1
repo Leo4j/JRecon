@@ -10660,75 +10660,78 @@ else{
     Write-Host "  _/ ||_|    \___| \___| \___/ |_| |_| " -ForegroundColor Red;
     Write-Host " |__/                                  " -ForegroundColor Red;
     Write-Host "                                       " -ForegroundColor Red;
-    Write-Host "Hey!" -ForegroundColor Green -NoNewline;
-	Write-Host " Before we start..." -ForegroundColor Yellow;
-	Write-Host "Do you need to " -NoNewline;
-	Write-Host "download" -ForegroundColor Green -NoNewline;
-	Write-Host " any of the following tools ?" -NoNewline;
-	Write-Host " (will run in background)" -ForegroundColor Yellow;
-	Write-Host "Nessus" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? Leave blank for YES: " -NoNewline
-	$jdownloadNessus = Read-Host
-	if($jdownloadNessus){}
+	$filecheck = "$pwd\Tools\Nessus.exe","$pwd\Tools\hfs.exe","$pwd\Tools\WinShareEnum.exe","$pwd\Tools\Advanced_IP_Scanner.exe","$pwd\Tools\nmap.exe","$pwd\Tools\PsExec.exe","$pwd\Tools\kali.7z","$pwd\Tools\VirtualBox.exe"
+	$result = ($filecheck | Test-Path) -notcontains $false
+	if($result -eq "True"){}
 	else{
-		if(Test-Path -Path $pwd\Tools\){}
-		else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
-		if(Test-Path -Path $pwd\Tools\Nessus.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/17756/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.exe"}}
+		Write-Host "Before we start..." -ForegroundColor Yellow;
+		Write-Host "Do you need to " -NoNewline;
+		Write-Host "download" -ForegroundColor Green -NoNewline;
+		Write-Host " any of the following tools ?";
+		Write-Host "Nessus" -ForegroundColor Yellow -NoNewline
+		Write-Host " ? [~91MB] Leave blank for YES: " -NoNewline
+		$jdownloadNessus = Read-Host
+		if($jdownloadNessus){}
+		else{
+			if(Test-Path -Path $pwd\Tools\){}
+			else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
+			if(Test-Path -Path $pwd\Tools\Nessus.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/17756/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.exe"}}
+		}
+		Write-Host "WinShareEnum" -ForegroundColor Yellow -NoNewline
+		Write-Host ", " -NoNewline
+		Write-Host "AdvIPScanner" -ForegroundColor Yellow -NoNewline
+		Write-Host ", " -NoNewline
+		Write-Host "Nmap" -ForegroundColor Yellow -NoNewline
+		Write-Host ", " -NoNewline
+		Write-Host "PsExec" -ForegroundColor Yellow -NoNewline
+		Write-Host " and " -NoNewline
+		Write-Host "HFS" -ForegroundColor Yellow -NoNewline
+		Write-Host " ? [~120MB] Leave blank for YES: " -NoNewline
+		$jdownloadtools = Read-Host
+		if($jdownloadtools){}
+		else{
+			if(Test-Path -Path $pwd\Tools\){}
+			else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
+			if(Test-Path -Path $pwd\Tools\hfs.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/rejetto/hfs2/releases/download/v2.4-rc07/hfs.exe" -OutFile "$pwd\Tools\hfs.exe"}}
+			if(Test-Path -Path $pwd\Tools\WinShareEnum.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/nccgroup/WinShareEnum/raw/master/Info/WinShareEnum.exe" -OutFile "$pwd\Tools\WinShareEnum.exe"}}
+			if(Test-Path -Path $pwd\Tools\Advanced_IP_Scanner.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.4594.1.exe" -OutFile "$pwd\Tools\Advanced_IP_Scanner.exe"}}
+			if(Test-Path -Path $pwd\Tools\nmap.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://nmap.org/dist/nmap-7.93-setup.exe" -OutFile "$pwd\Tools\nmap.exe"}}
+			if(Test-Path -Path $pwd\Tools\PsExec.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/Leo4j/PsExec/raw/main/PsExec.exe" -OutFile "$pwd\Tools\PsExec.exe"}}
+			
+		}
+		Write-Host "Kali OS" -ForegroundColor Yellow -NoNewline
+		Write-Host " and " -NoNewline
+		Write-Host "VirtualBox" -ForegroundColor Yellow -NoNewline
+		Write-Host " ? [~2.7GB] Leave blank for YES: " -NoNewline
+		$jdownloadkali = Read-Host
+		if($jdownloadkali){}
+		else{
+			if(Test-Path -Path $pwd\Tools\){}
+			else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
+			if(Test-Path -Path $pwd\Tools\kali.7z){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://kali.download/virtual-images/kali-2022.3/kali-linux-2022.3-virtualbox-amd64.7z" -OutFile "$pwd\Tools\kali.7z"}}
+			if(Test-Path -Path $pwd\Tools\VirtualBox.exe){}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://download.virtualbox.org/virtualbox/7.0.2/VirtualBox-7.0.2-154219-Win.exe" -OutFile "$pwd\Tools\VirtualBox.exe"}}
+		}
+		Write-Host "OK, Thanks" -NoNewline
+		Write-Output "`n"
 	}
-	Write-Host "WinShareEnum" -ForegroundColor Yellow -NoNewline
-	Write-Host ", " -NoNewline
-	Write-Host "AdvIPScanner" -ForegroundColor Yellow -NoNewline
-	Write-Host ", " -NoNewline
-	Write-Host "Nmap" -ForegroundColor Yellow -NoNewline
-	Write-Host ", " -NoNewline
-	Write-Host "PsExec" -ForegroundColor Yellow -NoNewline
-	Write-Host " and " -NoNewline
-	Write-Host "HFS" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? Leave blank for YES: " -NoNewline
-	$jdownloadtools = Read-Host
-	if($jdownloadtools){}
-	else{
-		if(Test-Path -Path $pwd\Tools\){}
-		else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
-		if(Test-Path -Path $pwd\Tools\hfs.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/rejetto/hfs2/releases/download/v2.4-rc07/hfs.exe" -OutFile "$pwd\Tools\hfs.exe"}}
-		if(Test-Path -Path $pwd\Tools\WinShareEnum.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/nccgroup/WinShareEnum/raw/master/Info/WinShareEnum.exe" -OutFile "$pwd\Tools\WinShareEnum.exe"}}
-		if(Test-Path -Path $pwd\Tools\Advanced_IP_Scanner.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.4594.1.exe" -OutFile "$pwd\Tools\Advanced_IP_Scanner.exe"}}
-		if(Test-Path -Path $pwd\Tools\nmap.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://nmap.org/dist/nmap-7.93-setup.exe" -OutFile "$pwd\Tools\nmap.exe"}}
-		if(Test-Path -Path $pwd\Tools\PsExec.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/Leo4j/PsExec/raw/main/PsExec.exe" -OutFile "$pwd\Tools\PsExec.exe"}}
-		
-	}
-	Write-Host "Kali OS" -ForegroundColor Yellow -NoNewline
-	Write-Host " and " -NoNewline
-	Write-Host "VirtualBox" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? (will run in background) Leave blank for YES: " -NoNewline
-	$jdownloadkali = Read-Host
-	if($jdownloadkali){}
-	else{
-		if(Test-Path -Path $pwd\Tools\){}
-		else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
-		if(Test-Path -Path $pwd\Tools\kali.7z){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://kali.download/virtual-images/kali-2022.3/kali-linux-2022.3-virtualbox-amd64.7z" -OutFile "$pwd\Tools\kali.7z"}}
-		if(Test-Path -Path $pwd\Tools\VirtualBox.exe){}
-		else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://download.virtualbox.org/virtualbox/7.0.2/VirtualBox-7.0.2-154219-Win.exe" -OutFile "$pwd\Tools\VirtualBox.exe"}}
-	}
-	Write-Host "OK, Thanks" -NoNewline
-	Write-Output "`n"
 	Write-Host "Let's make sure we stay in scope..." -ForegroundColor Green;
     Write-Host "Current domain is: " -ForegroundColor Cyan -NoNewline; Write-Host "$jcurrentdomain" -ForegroundColor Yellow
     Write-Host "Do you want to run the initial " -NoNewline
 	Write-Host "Domain Enumeration" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? (This task may take a long time) Leave blank for YES: " -NoNewline
+	Write-Host " ? Leave blank for YES: " -NoNewline
 	$jenum = Read-Host
 	
 	Write-Host "Do you want to run " -NoNewline
 	Write-Host "BloodHound Collection" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? (This task may take a long time) Leave blank for YES: " -NoNewline
+	Write-Host " ? Leave blank for YES: " -NoNewline
 	$jblood = Read-Host
 	
 	Write-Host "Do you want to download and run " -NoNewline
@@ -10872,12 +10875,12 @@ else{
 	
 	Write-Host "Do you want to search for " -NoNewline
 	Write-Host "Passwords in GPO" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? (This task may take a long time) Leave blank for YES: " -NoNewline
+	Write-Host " ? Leave blank for YES: " -NoNewline
     $jgpo = Read-Host
 	
 	Write-Host "Do you want to search for " -NoNewline
 	Write-Host "Passwords in SYSVOL/Netlogon" -ForegroundColor Yellow -NoNewline
-	Write-Host " ? (This task may take a long time) Leave blank for YES: " -NoNewline
+	Write-Host " ? Leave blank for YES: " -NoNewline
     $jsysvol = Read-Host
 	
     Write-Host "Thanks! Let's start.." -ForegroundColor Green;
