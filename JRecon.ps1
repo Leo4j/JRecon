@@ -10610,7 +10610,7 @@ elseif($jYesToAll -eq "All"){
 	if(Test-Path -Path $pwd\Tools\){}
 	else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
 	if(Test-Path -Path $pwd\Tools\Nessus.exe){}
-	else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/18375/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.exe"}}
+	else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/18375/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.msi"}}
 	if(Test-Path -Path $pwd\Tools\hfs.exe){}
 	else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://github.com/rejetto/hfs2/releases/download/v2.4-rc07/hfs.exe" -OutFile "$pwd\Tools\hfs.exe"}}
 	if(Test-Path -Path $pwd\Tools\WinShareEnum.exe){}
@@ -10660,7 +10660,7 @@ else{
     Write-Host "  _/ ||_|    \___| \___| \___/ |_| |_| " -ForegroundColor Red;
     Write-Host " |__/                                  " -ForegroundColor Red;
     Write-Host "                                       " -ForegroundColor Red;
-	$filecheck = "$pwd\Tools\Nessus.exe","$pwd\Tools\hfs.exe","$pwd\Tools\WinShareEnum.exe","$pwd\Tools\Advanced_IP_Scanner.exe","$pwd\Tools\nmap.exe","$pwd\Tools\PsExec.exe","$pwd\Tools\kali.7z","$pwd\Tools\VirtualBox.exe"
+	$filecheck = "$pwd\Tools\Nessus.msi","$pwd\Tools\hfs.exe","$pwd\Tools\WinShareEnum.exe","$pwd\Tools\Advanced_IP_Scanner.exe","$pwd\Tools\nmap.exe","$pwd\Tools\PsExec.exe","$pwd\Tools\kali.7z","$pwd\Tools\VirtualBox.exe"
 	$result = ($filecheck | Test-Path) -notcontains $false
 	if($result -eq "True"){}
 	else{
@@ -10676,7 +10676,7 @@ else{
 			if(Test-Path -Path $pwd\Tools\){}
 			else{New-Item -Path $pwd\Tools\ -ItemType Directory | Out-Null}
 			if(Test-Path -Path $pwd\Tools\Nessus.exe){}
-			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/18375/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.exe"}}
+			else{start powershell -WindowStyle Hidden {Invoke-WebRequest -Uri "https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/18375/download?i_agree_to_tenable_license_agreement=true" -OutFile "$pwd\Tools\Nessus.msi"}}
 		}
 		Write-Host "WinShareEnum" -ForegroundColor Yellow -NoNewline
 		Write-Host ", " -NoNewline
