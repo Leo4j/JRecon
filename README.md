@@ -2,7 +2,7 @@
 ### A tool to automate Active Directory Enumeration
 I've been working on this tool to automate a good part of the initial AD enumeration phase.
 
-JRecon is not perfect, but it does it's job - while I can go grab a coffee
+JRecon is not perfect, but it does it's job - while you can go grab a coffee
 
 My advice is to run the tool within an empty working directory folder, and (if needed) re-run within the same folder. 
 
