@@ -10179,8 +10179,8 @@ Function Outvoke-ADRecon
         {
             Try
             {
-                $objDomain = New-Object System.DirectoryServices.DirectoryEntry "LDAP://$($DomainController)", $Credential.UserName,$Credential.GetNetworkCredential().Password
-                $objDomainRootDSE = New-Object System.DirectoryServices.DirectoryEntry "LDAP://$($DomainController)/RootDSE", $Credential.UserName,$Credential.GetNetworkCredential().Password
+                $objDomain = New-Object System.DirectoryServices.DirectoryEntry "LDAP://$($DomainController)"
+                $objDomainRootDSE = New-Object System.DirectoryServices.DirectoryEntry "LDAP://$($DomainController)/RootDSE"
             }
             Catch
             {
