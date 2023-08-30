@@ -218,8 +218,8 @@ function Invoke-JRecon{
 	
 	clear
 	$tempdirectory = $pwd
-	#$ErrorActionPreference = "SilentlyContinue"
-    #$WarningPreference = "SilentlyContinue"
+	$ErrorActionPreference = "SilentlyContinue"
+    	$WarningPreference = "SilentlyContinue"
 	
 	if($ServerURL){$ServerURL = $ServerURL.TrimEnd('/')}
 	else{$ServerURL = "https://raw.githubusercontent.com/Leo4j/JRecon/main/Tools"}
@@ -238,7 +238,7 @@ function Invoke-JRecon{
 	Write-Host "  | || '_ \ \ / / _ \| |/ / _ \_____ _  | | |_) / _ \/ __/ _ \| '_ \ " -ForegroundColor Red;
 	Write-Host "  | || | | \ V / (_) |   <  __/_____| |_| |  _ <  __/ (_| (_) | | | |" -ForegroundColor Red;
 	Write-Host " |___|_| |_|\_/ \___/|_|\_\___|      \___/|_| \_\___|\___\___/|_| |_|" -ForegroundColor Red;
-    Write-Host ""
+    	Write-Host ""
 	
 	if($Domain){
 		
