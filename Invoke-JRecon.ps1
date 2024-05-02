@@ -1184,7 +1184,7 @@ function Invoke-JRecon{
 	}
 	
 	cd $tempdirectory
-
+	Remove-MpPreference -ExclusionPath $ToolOutput
 	echo " "
 	Write-Host "Arrivederci !!" -ForegroundColor Cyan;
 	echo " "
