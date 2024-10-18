@@ -29,6 +29,10 @@ function Invoke-JRecon{
 		[Parameter (Mandatory=$False, ValueFromPipeline=$true)]
         [String]
         $PingCastleURL,
+
+ 	[Parameter (Mandatory=$False, ValueFromPipeline=$true)]
+        [String]
+        $PingCastleKey,
 		
 		[Parameter (Mandatory=$False, ValueFromPipeline=$true)]
         [string]
@@ -441,7 +445,7 @@ function Invoke-JRecon{
 		}
 		
 		else{
-			$jpingdownload = "https://github.com/vletoux/pingcastle/releases/download/3.1.0.1/PingCastle_3.1.0.1.zip"
+			$jpingdownload = "https://github.com/Leo4j/JRecon/raw/refs/heads/main/Tools/PingCastle_3.3.0.1.zip"
 			Write-Host "JRecon will download and run PingCastle Free Edition, which is NOT FOR COMMERCIAL USE" -ForegroundColor Red
 		
 		}
@@ -465,6 +469,15 @@ function Invoke-JRecon{
 			Unzip "$ToolOutput\PingCastle.zip" "$ToolOutput\PingCastle\"
 			del $ToolOutput\PingCastle.zip
 		
+		}
+
+  		if($PingCastleKey){
+    			$PingConffilePath = "$ToolOutput\PingCastle\PingCastle.exe.config"
+    			$oldString = 'license="" />'
+       			$newString = "license=`"$PingCastleKey`" />"
+	  		$PingfileContent = Get-Content -Path $PingConffilePath -Raw
+			$PingfileContent = $PingfileContent -replace [regex]::Escape($oldString), $newString
+   			Set-Content -Path $PingConffilePath -Value $PingfileContent
 		}
 		
 	}
