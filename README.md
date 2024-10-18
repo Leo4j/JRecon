@@ -12,7 +12,7 @@ Run the tool on memory (don't make it touch disk)
 iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/Leo4j/JRecon/main/Invoke-JRecon.ps1')
 ```
 
-Specify the Commercial Version PingCastle URL (or it will download the free version)
+Specify the Commercial Version PingCastle URL or Key (or it will download and use the free version)
 ```
 Invoke-JRecon -PingCastleURL <URL>
 ```
