@@ -357,11 +357,9 @@ function Invoke-JRecon{
 		}
 	}
 	
-	if($NoNessus -and $NoTools -and $NoKali){}
-	else{
-		if(Test-Path -Path $ToolOutput\Tools\){}
-		else{New-Item -Path $ToolOutput\Tools\ -ItemType Directory | Out-Null}
-	}
+	
+	if(Test-Path -Path $ToolOutput\Tools\){}
+	else{New-Item -Path $ToolOutput\Tools\ -ItemType Directory | Out-Null}
 	
 	if($NoNessus){}
 	else{
