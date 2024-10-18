@@ -446,8 +446,7 @@ function Invoke-JRecon{
 		
 		else{
 			$jpingdownload = "https://github.com/Leo4j/JRecon/raw/refs/heads/main/Tools/PingCastle_3.3.0.1.zip"
-			Write-Host "JRecon will download and run PingCastle Free Edition, which is NOT FOR COMMERCIAL USE" -ForegroundColor Red
-		
+			if(!$PingCastleKey){Write-Host "JRecon will download and run PingCastle Free Edition, which is NOT FOR COMMERCIAL USE" -ForegroundColor Red}
 		}
 		
 		if(Test-Path -Path $ToolOutput\PingCastle\PingCastle.exe){}
