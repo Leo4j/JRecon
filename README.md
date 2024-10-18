@@ -16,6 +16,9 @@ Specify the Commercial Version PingCastle URL (or it will download the free vers
 ```
 Invoke-JRecon -PingCastleURL <URL>
 ```
+```
+Invoke-JRecon -PingCastleKey "<Key>"
+```
 
 ### What does the tool enumerate for ?
 
